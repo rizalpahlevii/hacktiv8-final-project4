@@ -15,11 +15,11 @@ func AuthRoutes(r *gin.Engine) {
 
 	userRepository := repository.NewUserRepository(database)
 	userService := service.NewAuthService(userRepository, database, validator)
-	authHandler := controller.NewAuthController(userService)
+	authController := controller.NewAuthController(userService)
 
 	router := r.Group("/users")
 	{
-		router.POST("/login", authHandler.Login)
-		router.POST("/register", authHandler.Register)
+		router.POST("/login", authController.Login)
+		router.POST("/register", authController.Register)
 	}
 }

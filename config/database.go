@@ -1,23 +1,28 @@
 package config
 
 import (
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"hacktiv8-final-project4/helper"
 	"hacktiv8-final-project4/model"
 	"log"
+	"os"
 )
 
 var (
-	db  *gorm.DB
-	err error
+	db *gorm.DB
 )
 
 func handleDatabaseConnection() {
-	host := "localhost"
-	port := "5432"
-	user := "postgres"
-	password := "root"
-	dbname := "hacktiv8_final_project4"
+	err := godotenv.Load()
+	helper.PanicIfError(err)
+
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
 
 	connectionString := "host=" + host + " port=" + port + " user=" + user + " password=" + password + " dbname=" + dbname + " sslmode=disable"
 
