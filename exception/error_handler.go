@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"hacktiv8-final-project4/helpers"
+	"hacktiv8-final-project4/helper"
 	"net/http"
 	"strings"
 )
@@ -36,7 +36,7 @@ func validationErrors(context *gin.Context, err interface{}) bool {
 			fieldName := strings.ToLower(e.Field())
 			tag := e.Tag()
 			param := e.Param()
-			customMessage := helpers.CustomMessages[tag]
+			customMessage := helper.CustomMessages[tag]
 			if customMessage != "" {
 				message := strings.Replace(customMessage, "%s", fieldName, -1)
 				if strings.Contains(message, "%param%") {
@@ -48,7 +48,7 @@ func validationErrors(context *gin.Context, err interface{}) bool {
 			}
 		}
 
-		helpers.JsonResponse(context, http.StatusBadRequest, gin.H{
+		helper.JsonResponse(context, http.StatusBadRequest, gin.H{
 			"message": "Validation error(s) occurred.",
 			"errors":  errorMap,
 		})
@@ -60,7 +60,7 @@ func validationErrors(context *gin.Context, err interface{}) bool {
 
 func loginError(context *gin.Context, err interface{}) bool {
 	if exception, ok := err.(LoginError); ok {
-		helpers.JsonResponse(context, http.StatusUnauthorized, gin.H{
+		helper.JsonResponse(context, http.StatusUnauthorized, gin.H{
 			"message": exception.Error.Error(),
 		})
 		return true
@@ -73,7 +73,7 @@ func notFoundError(context *gin.Context, err interface{}) bool {
 	exception, ok := err.(NotFoundError)
 	fmt.Println(exception.Error)
 	if ok {
-		helpers.JsonResponse(context, http.StatusNotFound, gin.H{
+		helper.JsonResponse(context, http.StatusNotFound, gin.H{
 			"message": exception.Error.Error(),
 		})
 		return true
@@ -83,7 +83,7 @@ func notFoundError(context *gin.Context, err interface{}) bool {
 }
 
 func internalServerError(context *gin.Context, err interface{}) {
-	helpers.JsonResponse(context, http.StatusInternalServerError, gin.H{
+	helper.JsonResponse(context, http.StatusInternalServerError, gin.H{
 		"message": err,
 	})
 }

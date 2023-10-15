@@ -2,10 +2,10 @@ package main
 
 import (
 	"hacktiv8-final-project4/config"
-	"hacktiv8-final-project4/routes"
+	"hacktiv8-final-project4/route"
 )
 
 func main() {
 	config.StartDatabase()
-	routes.StartApplication()
+	route.StartApplication()
 }

@@ -3,7 +3,7 @@ package config
 import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"hacktiv8-final-project4/models"
+	"hacktiv8-final-project4/model"
 	"log"
 )
 
@@ -40,7 +40,7 @@ func DatabaseConnection() *gorm.DB {
 func StartDatabase() {
 	handleDatabaseConnection()
 	database := DatabaseConnection()
-	err := database.AutoMigrate(&models.User{}, &models.Product{}, &models.Category{}, &models.TransactionHistory{})
+	err := database.AutoMigrate(&model.User{}, &model.Product{}, &model.Category{}, &model.TransactionHistory{})
 	if err != nil {
 		panic(err)
 	}
