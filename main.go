@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"hacktiv8-final-project4/config"
+	"hacktiv8-final-project4/routes"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	config.StartDatabase()
+	routes.StartApplication()
 }
