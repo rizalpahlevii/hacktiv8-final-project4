@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
+	"hacktiv8-final-project4/dto"
 	"hacktiv8-final-project4/exception"
 	"hacktiv8-final-project4/helper"
 	"hacktiv8-final-project4/repository"
@@ -25,7 +26,7 @@ func NewAuthService(userRepository repository.UserRepository, DB *gorm.DB, valid
 	}
 }
 
-func (service AuthService) Login(input auth.LoginRequest) string {
+func (service AuthService) Login(input auth.LoginRequest) dto.LoginDTO {
 	err := service.Validate.Struct(input)
 	helper.PanicIfError(err)
 
@@ -39,5 +40,18 @@ func (service AuthService) Login(input auth.LoginRequest) string {
 		panic(exception.NewLoginError(errors.New("wrong password")))
 	}
 
-	return user.GenerateJwtToken()
+	return dto.NewLoginDTO(user.GenerateJwtToken())
+}
+
+func (service AuthService) Register(input auth.RegisterRequest) dto.RegisterDTO {
+	err := service.Validate.Struct(input)
+	helper.PanicIfError(err)
+
+	user := service.userRepository.GetUserByEmail(input.Email)
+	if user.ID != 0 {
+		panic(exception.NewBadRequestError(errors.New("email already exist")))
+	}
+
+	user = service.userRepository.CreateUser(input)
+	return dto.NewRegisterDTO(user)
 }

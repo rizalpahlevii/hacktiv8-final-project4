@@ -20,10 +20,6 @@ func AuthRoutes(r *gin.Engine) {
 	router := r.Group("/users")
 	{
 		router.POST("/login", authHandler.Login)
-		router.POST("/register", func(context *gin.Context) {
-			context.JSON(200, gin.H{
-				"message": "Register",
-			})
-		})
+		router.POST("/register", authHandler.Register)
 	}
 }

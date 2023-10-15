@@ -29,7 +29,7 @@ func (user *User) GenerateJwtToken() string {
 
 func (user *User) BeforeCreate(tx *gorm.DB) error {
 	user.Password = helper.HashPassword(user.Password)
-
+	user.Balance = 0
 	// Assign default role if not set
 	if user.Role == "" {
 		user.Role = CustomerRole

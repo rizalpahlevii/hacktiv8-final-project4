@@ -24,6 +24,10 @@ func ErrorHandler(context *gin.Context, err interface{}) {
 			return
 		}
 
+		if badRequestError(context, err) {
+			return
+		}
+
 		internalServerError(context, err)
 	}()
 }
@@ -61,6 +65,18 @@ func validationErrors(context *gin.Context, err interface{}) bool {
 func loginError(context *gin.Context, err interface{}) bool {
 	if exception, ok := err.(LoginError); ok {
 		helper.JsonResponse(context, http.StatusUnauthorized, gin.H{
+			"message": exception.Error.Error(),
+		})
+		return true
+	} else {
+		return false
+	}
+}
+
+func badRequestError(context *gin.Context, err interface{}) bool {
+	exception, ok := err.(BadRequestError)
+	if ok {
+		helper.JsonResponse(context, http.StatusBadRequest, gin.H{
 			"message": exception.Error.Error(),
 		})
 		return true
