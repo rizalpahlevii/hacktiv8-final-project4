@@ -1,29 +1,27 @@
 package route
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	validatorV10 "github.com/go-playground/validator/v10"
+	"hacktiv8-final-project4/config"
+	"hacktiv8-final-project4/controller"
+	"hacktiv8-final-project4/repository"
+	"hacktiv8-final-project4/service"
+)
 
 func ProductRoutes(r *gin.Engine) {
+	database := config.DatabaseConnection()
+	productRepository := repository.NewProductRepository(database)
+	validator := validatorV10.New()
+	productService := service.NewProductService(productRepository, validator)
+	productController := controller.NewProductController(productService)
+
 	router := r.Group("/products")
 	{
-		router.POST("/add", func(context *gin.Context) {
-			context.JSON(200, gin.H{
-				"message": "Add Product",
-			})
-		})
-		router.PUT("/edit", func(context *gin.Context) {
-			context.JSON(200, gin.H{
-				"message": "Edit Product",
-			})
-		})
-		router.DELETE("/delete", func(context *gin.Context) {
-			context.JSON(200, gin.H{
-				"message": "Delete Product",
-			})
-		})
-		router.GET("/list", func(context *gin.Context) {
-			context.JSON(200, gin.H{
-				"message": "List Product",
-			})
-		})
+		router.GET("/", productController.GetProducts)
+		router.POST("/", productController.CreateProduct)
+		router.PUT("/:id", productController.UpdateProduct)
+		router.DELETE("/:id", productController.DeleteProduct)
+
 	}
 }

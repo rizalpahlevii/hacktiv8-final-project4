@@ -11,12 +11,12 @@ import (
 )
 
 type CategoryService struct {
-	categoryRepository repository.CategoryRepository
+	categoryRepository *repository.CategoryRepository
 	Validate           *validator.Validate
 }
 
-func NewCategoryService(categoryRepository repository.CategoryRepository, validate *validator.Validate) CategoryService {
-	return CategoryService{categoryRepository: categoryRepository, Validate: validate}
+func NewCategoryService(categoryRepository *repository.CategoryRepository, validate *validator.Validate) *CategoryService {
+	return &CategoryService{categoryRepository: categoryRepository, Validate: validate}
 }
 
 func (service CategoryService) Create(request request.CategoryRequest) dto.CategoryDTO {

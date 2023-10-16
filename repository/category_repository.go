@@ -10,8 +10,8 @@ type CategoryRepository struct {
 	*gorm.DB
 }
 
-func NewCategoryRepository(DB *gorm.DB) CategoryRepository {
-	return CategoryRepository{DB: DB}
+func NewCategoryRepository(DB *gorm.DB) *CategoryRepository {
+	return &CategoryRepository{DB: DB}
 }
 
 func (repository CategoryRepository) Create(request request.CategoryRequest) model.Category {
