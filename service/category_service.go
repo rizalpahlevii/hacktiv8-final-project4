@@ -3,9 +3,9 @@ package service
 import (
 	"errors"
 	"github.com/go-playground/validator/v10"
-	dto "hacktiv8-final-project4/dto/category"
 	"hacktiv8-final-project4/exception"
 	"hacktiv8-final-project4/helper"
+	"hacktiv8-final-project4/httpresponse"
 	"hacktiv8-final-project4/repository"
 	"hacktiv8-final-project4/request"
 )
@@ -19,35 +19,30 @@ func NewCategoryService(categoryRepository *repository.CategoryRepository, valid
 	return &CategoryService{categoryRepository: categoryRepository, Validate: validate}
 }
 
-func (service CategoryService) Create(request request.CategoryRequest) dto.CategoryDTO {
+func (service CategoryService) Create(request request.CategoryRequest) httpresponse.CategoryResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
 	category := service.categoryRepository.Create(request)
-	return dto.NewCategoryDTO(category)
+	return httpresponse.NewCategoryResponse(category)
 }
 
-func (service CategoryService) All() []dto.CategoryDTO {
-
+func (service CategoryService) All() []httpresponse.CategoryListResponse {
 	categories := service.categoryRepository.All()
-	var categoriesDTO []dto.CategoryDTO
-	for _, value := range categories {
-		categoriesDTO = append(categoriesDTO, dto.NewCategoryDTO(value))
-	}
-	return categoriesDTO
+	return httpresponse.NewCategoryListResponses(categories)
 }
 
-func (service CategoryService) FindById(id uint) dto.CategoryDTO {
+func (service CategoryService) FindById(id uint) httpresponse.CategoryResponse {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (service CategoryService) FindByType(categoryType string) dto.CategoryDTO {
+func (service CategoryService) FindByType(categoryType string) httpresponse.CategoryResponse {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (service CategoryService) Update(id uint, request request.CategoryRequest) dto.CategoryDTO {
+func (service CategoryService) Update(id uint, request request.CategoryRequest) httpresponse.CategoryResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
@@ -57,7 +52,7 @@ func (service CategoryService) Update(id uint, request request.CategoryRequest) 
 	}
 
 	category = service.categoryRepository.Update(category, request)
-	return dto.NewCategoryDTO(category)
+	return httpresponse.NewCategoryResponse(category)
 }
 
 func (service CategoryService) Delete(id uint) error {

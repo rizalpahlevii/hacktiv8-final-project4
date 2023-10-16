@@ -4,9 +4,9 @@ import (
 	"errors"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
-	dto "hacktiv8-final-project4/dto/auth"
 	"hacktiv8-final-project4/exception"
 	"hacktiv8-final-project4/helper"
+	"hacktiv8-final-project4/httpresponse"
 	"hacktiv8-final-project4/repository"
 	"hacktiv8-final-project4/request"
 )
@@ -25,7 +25,7 @@ func NewAuthService(userRepository repository.UserRepository, DB *gorm.DB, valid
 	}
 }
 
-func (service AuthService) Login(request request.LoginRequest) dto.LoginDTO {
+func (service AuthService) Login(request request.LoginRequest) httpresponse.LoginResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
@@ -38,10 +38,10 @@ func (service AuthService) Login(request request.LoginRequest) dto.LoginDTO {
 		panic(exception.NewLoginError(errors.New("wrong password")))
 	}
 
-	return dto.NewLoginDTO(user.GenerateJwtToken())
+	return httpresponse.NewLoginResponse(user.GenerateJwtToken())
 }
 
-func (service AuthService) Register(request request.RegisterRequest) dto.RegisterDTO {
+func (service AuthService) Register(request request.RegisterRequest) httpresponse.RegisterResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
@@ -51,5 +51,5 @@ func (service AuthService) Register(request request.RegisterRequest) dto.Registe
 	}
 
 	user = service.userRepository.CreateUser(request)
-	return dto.NewRegisterDTO(user)
+	return httpresponse.NewRegisterResponse(user)
 }

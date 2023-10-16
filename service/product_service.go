@@ -3,9 +3,9 @@ package service
 import (
 	"errors"
 	"github.com/go-playground/validator/v10"
-	dto "hacktiv8-final-project4/dto/product"
 	"hacktiv8-final-project4/exception"
 	"hacktiv8-final-project4/helper"
+	"hacktiv8-final-project4/httpresponse"
 	"hacktiv8-final-project4/repository"
 	"hacktiv8-final-project4/request"
 )
@@ -19,15 +19,15 @@ func NewProductService(productRepository *repository.ProductRepository, validate
 	return &ProductService{productRepository: productRepository, Validate: validate}
 }
 
-func (service ProductService) Create(request request.ProductRequest) dto.ProductDTO {
+func (service ProductService) Create(request request.ProductRequest) httpresponse.ProductResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
 	product := service.productRepository.Create(request)
-	return dto.NewProductDTO(product)
+	return httpresponse.NewProductResponse(product)
 }
 
-func (service ProductService) Update(id uint, request request.ProductRequest) dto.ProductDTO {
+func (service ProductService) Update(id uint, request request.ProductRequest) httpresponse.ProductResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
@@ -37,14 +37,14 @@ func (service ProductService) Update(id uint, request request.ProductRequest) dt
 	}
 
 	product = service.productRepository.Update(product, request)
-	return dto.NewProductDTO(product)
+	return httpresponse.NewProductResponse(product)
 }
 
-func (service ProductService) All() []dto.ProductDTO {
+func (service ProductService) All() []httpresponse.ProductResponse {
 	products := service.productRepository.All()
-	var productsDTO []dto.ProductDTO
+	var productsDTO []httpresponse.ProductResponse
 	for _, value := range products {
-		productsDTO = append(productsDTO, dto.NewProductDTO(value))
+		productsDTO = append(productsDTO, httpresponse.NewProductResponse(value))
 	}
 	return productsDTO
 }

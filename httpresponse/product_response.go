@@ -1,11 +1,11 @@
-package dto
+package httpresponse
 
 import (
 	"hacktiv8-final-project4/model"
 	"time"
 )
 
-type ProductDTO struct {
+type ProductResponse struct {
 	ID         uint      `json:"id"`
 	Title      string    `json:"name"`
 	Price      int       `json:"price"`
@@ -14,8 +14,8 @@ type ProductDTO struct {
 	CreatedAt  time.Time `json:"created_at"`
 }
 
-func NewProductDTO(product model.Product) ProductDTO {
-	return ProductDTO{
+func NewProductResponse(product model.Product) ProductResponse {
+	return ProductResponse{
 		ID:         product.ID,
 		Title:      product.Title,
 		Price:      product.Price,

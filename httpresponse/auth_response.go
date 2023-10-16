@@ -1,11 +1,19 @@
-package dto
+package httpresponse
 
 import (
 	"hacktiv8-final-project4/model"
 	"time"
 )
 
-type RegisterDTO struct {
+type LoginResponse struct {
+	Token string `json:"token"`
+}
+
+func NewLoginResponse(token string) LoginResponse {
+	return LoginResponse{Token: token}
+}
+
+type RegisterResponse struct {
 	ID        uint      `json:"id"`
 	FullName  string    `json:"full_name"`
 	Email     string    `json:"email"`
@@ -14,8 +22,8 @@ type RegisterDTO struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func NewRegisterDTO(user model.User) RegisterDTO {
-	return RegisterDTO{
+func NewRegisterResponse(user model.User) RegisterResponse {
+	return RegisterResponse{
 		ID:        user.ID,
 		FullName:  user.FullName,
 		Email:     user.Email,
