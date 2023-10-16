@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
-	"hacktiv8-final-project4/dto"
+	dto "hacktiv8-final-project4/dto/auth"
 	"hacktiv8-final-project4/exception"
 	"hacktiv8-final-project4/helper"
 	"hacktiv8-final-project4/repository"

@@ -10,6 +10,10 @@ type UserRepository struct {
 	*gorm.DB
 }
 
+func NewUserRepository(DB *gorm.DB) UserRepository {
+	return UserRepository{DB: DB}
+}
+
 func (repository *UserRepository) CreateUser(input request.RegisterRequest) model.User {
 	user := model.User{
 		FullName: input.FullName,
@@ -23,10 +27,6 @@ func (repository *UserRepository) CreateUser(input request.RegisterRequest) mode
 func (repository *UserRepository) IncreaseBalance(user model.User, amount int) {
 	user.Balance += amount
 	repository.DB.Save(&user)
-}
-
-func NewUserRepository(DB *gorm.DB) UserRepository {
-	return UserRepository{DB: DB}
 }
 
 func (repository *UserRepository) GetUserByEmail(email string) model.User {

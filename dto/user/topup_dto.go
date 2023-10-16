@@ -1,8 +1,6 @@
 package dto
 
-import (
-	"strconv"
-)
+import "strconv"
 
 type TopUpDTO struct {
 	Message string `json:"message"`

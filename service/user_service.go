@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
-	"hacktiv8-final-project4/dto"
+	dto "hacktiv8-final-project4/dto/user"
 	"hacktiv8-final-project4/helper"
 	"hacktiv8-final-project4/repository"
 	"hacktiv8-final-project4/request"
