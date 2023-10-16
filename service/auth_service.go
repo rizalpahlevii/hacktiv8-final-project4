@@ -25,31 +25,31 @@ func NewAuthService(userRepository repository.UserRepository, DB *gorm.DB, valid
 	}
 }
 
-func (service AuthService) Login(input request.LoginRequest) dto.LoginDTO {
-	err := service.Validate.Struct(input)
+func (service AuthService) Login(request request.LoginRequest) dto.LoginDTO {
+	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
-	user := service.userRepository.GetUserByEmail(input.Email)
+	user := service.userRepository.GetUserByEmail(request.Email)
 	if user.ID == 0 {
 		panic(exception.NewNotFoundError(errors.New("user not found")))
 	}
 
-	if !user.VerifyPassword(input.Password) {
+	if !user.VerifyPassword(request.Password) {
 		panic(exception.NewLoginError(errors.New("wrong password")))
 	}
 
 	return dto.NewLoginDTO(user.GenerateJwtToken())
 }
 
-func (service AuthService) Register(input request.RegisterRequest) dto.RegisterDTO {
-	err := service.Validate.Struct(input)
+func (service AuthService) Register(request request.RegisterRequest) dto.RegisterDTO {
+	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
-	user := service.userRepository.GetUserByEmail(input.Email)
+	user := service.userRepository.GetUserByEmail(request.Email)
 	if user.ID != 0 {
 		panic(exception.NewBadRequestError(errors.New("email already exist")))
 	}
 
-	user = service.userRepository.CreateUser(input)
+	user = service.userRepository.CreateUser(request)
 	return dto.NewRegisterDTO(user)
 }

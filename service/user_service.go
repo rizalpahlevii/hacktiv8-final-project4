@@ -23,12 +23,12 @@ func NewUserService(userRepository repository.UserRepository, DB *gorm.DB, valid
 	}
 }
 
-func (service UserService) TopUp(input request.TopUpRequest, loggedUser helper.LoggedUser) dto.TopUpDTO {
-	err := service.Validate.Struct(input)
+func (service UserService) TopUp(request request.TopUpRequest, loggedUser helper.LoggedUser) dto.TopUpDTO {
+	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
 	user := service.userRepository.GetUserById(loggedUser.ID)
-	service.userRepository.IncreaseBalance(user, input.Balance)
+	service.userRepository.IncreaseBalance(user, request.Balance)
 
 	return dto.NewTopUpDTO(user.Balance)
 }
