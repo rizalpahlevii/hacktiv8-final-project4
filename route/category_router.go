@@ -16,6 +16,7 @@ func CategoryRoutes(r *gin.Engine) {
 	validator := validatorV10.New()
 	categoryService := service.NewCategoryService(categoryRepository, validator)
 	categoryController := controller.NewCategoryController(*categoryService)
+
 	router := r.Group("/categories")
 	{
 		router.Use(middleware.JwtMiddleware())

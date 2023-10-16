@@ -14,7 +14,7 @@ func NewLoginResponse(token string) LoginResponse {
 }
 
 type RegisterResponse struct {
-	ID        uint      `json:"id"`
+	ID        int       `json:"id"`
 	FullName  string    `json:"full_name"`
 	Email     string    `json:"email"`
 	Password  string    `json:"password"`

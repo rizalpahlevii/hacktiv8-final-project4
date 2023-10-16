@@ -29,7 +29,7 @@ func (service AuthService) Login(request request.LoginRequest) httpresponse.Logi
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
-	user := service.userRepository.GetUserByEmail(request.Email)
+	user := service.userRepository.FindByEmail(request.Email)
 	if user.ID == 0 {
 		panic(exception.NewNotFoundError(errors.New("user not found")))
 	}
@@ -45,7 +45,7 @@ func (service AuthService) Register(request request.RegisterRequest) httprespons
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
-	user := service.userRepository.GetUserByEmail(request.Email)
+	user := service.userRepository.FindByEmail(request.Email)
 	if user.ID != 0 {
 		panic(exception.NewBadRequestError(errors.New("email already exist")))
 	}

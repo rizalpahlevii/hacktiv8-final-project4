@@ -8,8 +8,8 @@ import (
 type CategoryServiceContract interface {
 	Create(request request.CategoryRequest) httpresponse.CategoryResponse
 	All() []httpresponse.CategoryListResponse
-	FindById(id uint) httpresponse.CategoryResponse
+	FindById(id int) httpresponse.CategoryResponse
 	FindByType(categoryType string) httpresponse.CategoryResponse
-	Update(id uint, request request.CategoryRequest) httpresponse.CategoryResponse
-	Delete(id uint) error
+	Update(id int, request request.CategoryRequest) httpresponse.CategoryResponse
+	Delete(id int) error
 }

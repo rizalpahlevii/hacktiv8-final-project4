@@ -27,7 +27,7 @@ func (service ProductService) Create(request request.ProductRequest) httprespons
 	return httpresponse.NewProductResponse(product)
 }
 
-func (service ProductService) Update(id uint, request request.ProductRequest) httpresponse.ProductResponse {
+func (service ProductService) Update(id int, request request.ProductRequest) httpresponse.UpdateProductResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
@@ -37,19 +37,19 @@ func (service ProductService) Update(id uint, request request.ProductRequest) ht
 	}
 
 	product = service.productRepository.Update(product, request)
-	return httpresponse.NewProductResponse(product)
+	return httpresponse.NewUpdateProductResponse(product)
 }
 
 func (service ProductService) All() []httpresponse.ProductResponse {
 	products := service.productRepository.All()
-	var productsDTO []httpresponse.ProductResponse
+	var productResponses []httpresponse.ProductResponse
 	for _, value := range products {
-		productsDTO = append(productsDTO, httpresponse.NewProductResponse(value))
+		productResponses = append(productResponses, httpresponse.NewProductResponse(value))
 	}
-	return productsDTO
+	return productResponses
 }
 
-func (service ProductService) Delete(id uint) error {
+func (service ProductService) Delete(id int) error {
 	product := service.productRepository.FindById(id)
 	if product.ID == 0 {
 		panic(exception.NewNotFoundError(errors.New("product not found")))

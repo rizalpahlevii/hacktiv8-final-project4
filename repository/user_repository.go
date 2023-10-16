@@ -29,13 +29,18 @@ func (repository *UserRepository) IncreaseBalance(user model.User, amount int) {
 	repository.DB.Save(&user)
 }
 
-func (repository *UserRepository) GetUserByEmail(email string) model.User {
+func (repository *UserRepository) DecreaseBalance(user model.User, amount int) {
+	user.Balance -= amount
+	repository.DB.Save(&user)
+}
+
+func (repository *UserRepository) FindByEmail(email string) model.User {
 	var user model.User
 	repository.DB.Where("email = ?", email).First(&user)
 	return user
 }
 
-func (repository *UserRepository) GetUserById(id uint) model.User {
+func (repository *UserRepository) FindById(id int) model.User {
 	var user model.User
 	repository.DB.Where("id = ?", id).First(&user)
 	return user

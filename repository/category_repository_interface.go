@@ -8,8 +8,10 @@ import (
 type CategoryRepositoryInterface interface {
 	Create(request request.CategoryRequest) model.Category
 	All() []model.Category
-	FindById(id uint) model.Category
+	FindById(id int) model.Category
 	FindByType(categoryType string) model.Category
 	Update(category model.Category, request request.CategoryRequest) model.Category
 	Delete(category model.Category)
+	IncreaseSoldProductAmount(category model.Category, amount int)
+	DecreaseSoldProductAmount(category model.Category, amount int)
 }

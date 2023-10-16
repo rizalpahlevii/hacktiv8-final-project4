@@ -25,9 +25,9 @@ func (repository ProductRepository) Create(request request.ProductRequest) model
 	return product
 }
 
-func (repository ProductRepository) FindById(id uint) model.Product {
+func (repository ProductRepository) FindById(id int) model.Product {
 	var product model.Product
-	repository.DB.First(&product, id)
+	repository.DB.Preload("Category").First(&product, id)
 	return product
 }
 
@@ -48,4 +48,14 @@ func (repository ProductRepository) All() []model.Product {
 	var products []model.Product
 	repository.DB.Preload("Category").Find(&products)
 	return products
+}
+
+func (repository ProductRepository) DecreaseStock(product model.Product, quantity int) {
+	product.Stock -= quantity
+	repository.DB.Save(&product)
+}
+
+func (repository ProductRepository) IncreaseStock(product model.Product, quantity int) {
+	product.Stock += quantity
+	repository.DB.Save(&product)
 }

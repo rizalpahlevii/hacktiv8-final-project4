@@ -32,7 +32,7 @@ func (service CategoryService) All() []httpresponse.CategoryListResponse {
 	return httpresponse.NewCategoryListResponses(categories)
 }
 
-func (service CategoryService) FindById(id uint) httpresponse.CategoryResponse {
+func (service CategoryService) FindById(id int) httpresponse.CategoryResponse {
 	//TODO implement me
 	panic("implement me")
 }
@@ -42,7 +42,7 @@ func (service CategoryService) FindByType(categoryType string) httpresponse.Cate
 	panic("implement me")
 }
 
-func (service CategoryService) Update(id uint, request request.CategoryRequest) httpresponse.CategoryResponse {
+func (service CategoryService) Update(id int, request request.CategoryRequest) httpresponse.CategoryResponse {
 	err := service.Validate.Struct(request)
 	helper.PanicIfError(err)
 
@@ -55,7 +55,7 @@ func (service CategoryService) Update(id uint, request request.CategoryRequest) 
 	return httpresponse.NewCategoryResponse(category)
 }
 
-func (service CategoryService) Delete(id uint) error {
+func (service CategoryService) Delete(id int) error {
 	category := service.categoryRepository.FindById(id)
 	if category.ID == 0 {
 		panic(exception.NewNotFoundError(errors.New("category not found")))

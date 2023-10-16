@@ -6,14 +6,14 @@ import (
 )
 
 type CategoryResponse struct {
-	ID                uint      `json:"id"`
+	ID                int       `json:"id"`
 	Type              string    `json:"type"`
 	SoldProductAmount int       `json:"sold_product_amount"`
 	CreatedAt         time.Time `json:"created_at"`
 }
 
 type CategoryListResponse struct {
-	ID                uint                           `json:"id"`
+	ID                int                            `json:"id"`
 	Type              string                         `json:"type"`
 	SoldProductAmount int                            `json:"sold_product_amount"`
 	CreatedAt         time.Time                      `json:"created_at"`
@@ -22,7 +22,7 @@ type CategoryListResponse struct {
 }
 
 type CategoryListProductsResponse struct {
-	ID        uint      `json:"id"`
+	ID        int       `json:"id"`
 	Title     string    `json:"title"`
 	Price     int       `json:"price"`
 	Stock     int       `json:"stock"`

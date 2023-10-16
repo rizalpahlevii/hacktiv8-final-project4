@@ -35,13 +35,13 @@ func (controller CategoryController) UpdateCategory(context *gin.Context) {
 	helper.ReadFromRequestBody(context, &categoryRequest)
 
 	categoryId, _ := strconv.Atoi(context.Param("id"))
-	category := controller.categoryService.Update(uint(categoryId), categoryRequest)
+	category := controller.categoryService.Update(categoryId, categoryRequest)
 	helper.JsonResponse(context, http.StatusOK, category)
 }
 
 func (controller CategoryController) DeleteCategory(context *gin.Context) {
 	categoryId, _ := strconv.Atoi(context.Param("id"))
-	err := controller.categoryService.Delete(uint(categoryId))
+	err := controller.categoryService.Delete(categoryId)
 	helper.PanicIfError(err)
 
 	helper.JsonResponse(context, http.StatusOK, struct {

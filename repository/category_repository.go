@@ -28,7 +28,7 @@ func (repository CategoryRepository) All() []model.Category {
 	return categories
 }
 
-func (repository CategoryRepository) FindById(id uint) model.Category {
+func (repository CategoryRepository) FindById(id int) model.Category {
 	var category model.Category
 	repository.DB.Preload("Products").Where("id = ?", id).First(&category)
 	return category
@@ -48,4 +48,14 @@ func (repository CategoryRepository) Update(category model.Category, request req
 
 func (repository CategoryRepository) Delete(category model.Category) {
 	repository.DB.Delete(&category)
+}
+
+func (repository CategoryRepository) IncreaseSoldProductAmount(category model.Category, amount int) {
+	category.SoldProductAmount += amount
+	repository.DB.Save(&category)
+}
+
+func (repository CategoryRepository) DecreaseSoldProductAmount(category model.Category, amount int) {
+	category.SoldProductAmount -= amount
+	repository.DB.Save(&category)
 }

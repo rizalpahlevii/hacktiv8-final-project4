@@ -7,7 +7,7 @@ import (
 
 type ProductServiceContract interface {
 	Create(request request.ProductRequest) httpresponse.ProductResponse
-	Update(id uint, request request.ProductRequest) httpresponse.ProductResponse
+	Update(id int, request request.ProductRequest) httpresponse.UpdateProductResponse
 	All() []httpresponse.ProductResponse
-	Delete(id uint) interface{}
+	Delete(id int) error
 }

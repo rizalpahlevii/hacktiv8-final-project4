@@ -10,12 +10,12 @@ import (
 var SecretKey = []byte("secret")
 
 type LoggedUser struct {
-	ID    uint
+	ID    int
 	Email string
 	Role  string
 }
 
-func GenerateToken(id uint, email string, role string) string {
+func GenerateToken(id int, email string, role string) string {
 	claims := jwt.Claims(jwt.MapClaims{
 		"id":    id,
 		"email": email,
@@ -56,7 +56,7 @@ func VerifyToken(tokenString string) (jwt.Claims, error) {
 func GetLoggedUser(ctx *gin.Context) LoggedUser {
 	claims := ctx.MustGet("claims").(jwt.MapClaims)
 	return LoggedUser{
-		ID:    uint(claims["id"].(float64)),
+		ID:    int(claims["id"].(float64)),
 		Email: claims["email"].(string),
 		Role:  claims["role"].(string),
 	}
