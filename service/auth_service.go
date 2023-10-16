@@ -2,14 +2,13 @@ package service
 
 import (
 	"errors"
-	"fmt"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 	"hacktiv8-final-project4/dto"
 	"hacktiv8-final-project4/exception"
 	"hacktiv8-final-project4/helper"
 	"hacktiv8-final-project4/repository"
-	"hacktiv8-final-project4/request/auth"
+	"hacktiv8-final-project4/request"
 )
 
 type AuthService struct {
@@ -26,12 +25,11 @@ func NewAuthService(userRepository repository.UserRepository, DB *gorm.DB, valid
 	}
 }
 
-func (service AuthService) Login(input auth.LoginRequest) dto.LoginDTO {
+func (service AuthService) Login(input request.LoginRequest) dto.LoginDTO {
 	err := service.Validate.Struct(input)
 	helper.PanicIfError(err)
 
 	user := service.userRepository.GetUserByEmail(input.Email)
-	fmt.Println(user)
 	if user.ID == 0 {
 		panic(exception.NewNotFoundError(errors.New("user not found")))
 	}
@@ -43,7 +41,7 @@ func (service AuthService) Login(input auth.LoginRequest) dto.LoginDTO {
 	return dto.NewLoginDTO(user.GenerateJwtToken())
 }
 
-func (service AuthService) Register(input auth.RegisterRequest) dto.RegisterDTO {
+func (service AuthService) Register(input request.RegisterRequest) dto.RegisterDTO {
 	err := service.Validate.Struct(input)
 	helper.PanicIfError(err)
 

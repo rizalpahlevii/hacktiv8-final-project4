@@ -87,7 +87,6 @@ func badRequestError(context *gin.Context, err interface{}) bool {
 
 func notFoundError(context *gin.Context, err interface{}) bool {
 	exception, ok := err.(NotFoundError)
-	fmt.Println(exception.Error)
 	if ok {
 		helper.JsonResponse(context, http.StatusNotFound, gin.H{
 			"message": exception.Error.Error(),

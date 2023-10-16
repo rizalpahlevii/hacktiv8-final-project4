@@ -2,11 +2,18 @@ package helper
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"time"
 )
 
 var SecretKey = []byte("secret")
+
+type LoggedUser struct {
+	ID    uint
+	Email string
+	Role  string
+}
 
 func GenerateToken(id uint, email string, role string) string {
 	claims := jwt.Claims(jwt.MapClaims{
@@ -44,4 +51,13 @@ func VerifyToken(tokenString string) (jwt.Claims, error) {
 	}
 
 	return claims, nil
+}
+
+func GetLoggedUser(ctx *gin.Context) LoggedUser {
+	claims := ctx.MustGet("claims").(jwt.MapClaims)
+	return LoggedUser{
+		ID:    uint(claims["id"].(float64)),
+		Email: claims["email"].(string),
+		Role:  claims["role"].(string),
+	}
 }

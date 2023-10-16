@@ -3,7 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"hacktiv8-final-project4/helper"
-	"hacktiv8-final-project4/request/auth"
+	"hacktiv8-final-project4/request"
 	"hacktiv8-final-project4/service"
 	"net/http"
 )
@@ -17,7 +17,7 @@ func NewAuthController(authService service.AuthService) AuthController {
 }
 
 func (handler *AuthController) Register(context *gin.Context) {
-	var registerRequest auth.RegisterRequest
+	var registerRequest request.RegisterRequest
 	helper.ReadFromRequestBody(context, &registerRequest)
 
 	registerDTO := handler.authService.Register(registerRequest)
@@ -25,7 +25,7 @@ func (handler *AuthController) Register(context *gin.Context) {
 }
 
 func (handler *AuthController) Login(context *gin.Context) {
-	var loginRequest auth.LoginRequest
+	var loginRequest request.LoginRequest
 	helper.ReadFromRequestBody(context, &loginRequest)
 
 	loginDTO := handler.authService.Login(loginRequest)

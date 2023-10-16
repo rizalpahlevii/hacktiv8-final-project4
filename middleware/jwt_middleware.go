@@ -16,7 +16,8 @@ func JwtMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		if claims, err := helper.VerifyToken(token); err != nil {
+		claims, err := helper.VerifyToken(token)
+		if err != nil {
 			context.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"message": err.Error(),
 			})
