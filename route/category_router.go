@@ -19,7 +19,8 @@ func CategoryRoutes(r *gin.Engine) {
 
 	router := r.Group("/categories")
 	{
-		router.Use(middleware.JwtMiddleware())
+		router.Use(middleware.JwtMiddleware)
+		router.Use(middleware.IsAdminMiddleware)
 		router.GET("/", categoryController.GetCategories)
 		router.POST("/", categoryController.CreateCategory)
 		router.PATCH("/:id", categoryController.UpdateCategory)

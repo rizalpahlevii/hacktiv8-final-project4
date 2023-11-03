@@ -20,7 +20,7 @@ func UserRoutes(r *gin.Engine) {
 
 	router := r.Group("/users")
 	{
-		router.Use(middleware.JwtMiddleware())
+		router.Use(middleware.JwtMiddleware)
 		router.PATCH("/topup", userController.TopUp)
 
 	}

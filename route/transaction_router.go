@@ -19,8 +19,8 @@ func TransactionRoutes(r *gin.Engine) {
 	transactionController := controller.NewTransactionController(transactionService)
 	router := r.Group("/transactions")
 	{
-		router.Use(middleware.JwtMiddleware())
-		router.GET("/user-transactions", transactionController.GetTransactions)
+		router.Use(middleware.JwtMiddleware)
+		router.GET("/user-transactions", middleware.IsAdminMiddleware, transactionController.GetTransactions)
 		router.GET("/my-transactions", transactionController.GetUserTransactions)
 		router.POST("/", transactionController.CreateTransaction)
 

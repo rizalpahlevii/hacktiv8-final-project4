@@ -19,11 +19,11 @@ func ProductRoutes(r *gin.Engine) {
 
 	router := r.Group("/products")
 	{
-		router.Use(middleware.JwtMiddleware())
+		router.Use(middleware.JwtMiddleware)
 		router.GET("/", productController.GetProducts)
-		router.POST("/", productController.CreateProduct)
-		router.PUT("/:id", productController.UpdateProduct)
-		router.DELETE("/:id", productController.DeleteProduct)
+		router.POST("/", middleware.IsAdminMiddleware, productController.CreateProduct)
+		router.PUT("/:id", middleware.IsAdminMiddleware, productController.UpdateProduct)
+		router.DELETE("/:id", middleware.IsAdminMiddleware, productController.DeleteProduct)
 
 	}
 }
