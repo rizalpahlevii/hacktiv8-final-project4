@@ -1,6 +1,7 @@
 version: '3.8'
 services:
     api:
+        container_name: api
         build: .
         env_file:
             - .env
@@ -10,23 +11,22 @@ services:
             - .:/usr/src/app
         command: go run main.go
         depends_on:
-            - db
+            - postgres
         networks: ["hacktiv8"]
         
-    db:
+    postgres:
         container_name: postgres
-        image: postgres:16
-        env_file:
-            - .env
+        image: postgres:alpine
         volumes:
             - postgres-db:/var/lib/postgresql/data
         networks: ["hacktiv8"]
         ports:
-            - "5432:5432"
+            - "5422:5432"
         environment:
-            - POSTGRES_USER=${DB_USER}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}
-            - POSTGRES_DB=${DB_NAME}
+            - PGUSER=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=postgres
         restart: always
 
 networks:
