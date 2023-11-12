@@ -52,5 +52,10 @@ jobs:
                       # Pull latest image
                       docker pull ${{ secrets.DOCKER_USERNAME }}/${{ vars.IMAGE_NAME }}:latest
 
+                      # Run docker compose
+                      docker-compose up -d
+
+
+
                       # Run image
-                      docker run -d -p 1213:1213 --name ${{ vars.IMAGE_NAME }} ${{ secrets.DOCKER_USERNAME }}/${{ vars.IMAGE_NAME }}:latest
+                      #docker run -d -p 1213:1213 --name ${{ vars.IMAGE_NAME }} ${{ secrets.DOCKER_USERNAME }}/${{ vars.IMAGE_NAME }}:latest
