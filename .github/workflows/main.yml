@@ -1,14 +1,49 @@
 name: CI
+
 on:
     push:
         branches: ["main"]
+
 jobs:
     build:
         environment: production
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
-
-            - name: Run Docker Compose
-              run: docker compose up -d
+              uses: actions/checkout@v4
+              
+            - name: Setup Go
+              uses: actions/setup-go@v4
+              with:
+                  go-version: 1.21
+                  
+            - name: Build
+              run: |
+                  go build -v ./...
+                  
+            - name: Connect to Docker Hub
+              uses: docker/login-action@v2
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_TOKEN }}
+                  
+            - name: Build and push
+              uses: docker/build-push-action@v2
+              with:
+                  push: true
+                  tags: ${{ secrets.DOCKER_USERNAME }}/hacktiv8-final-project4:latest
+                  
+            - name: Deploy to Server
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.SERVER }}
+                  username: ${{ secrets.SERVER_USERNAME }}
+                  password: ${{ secrets.SERVER_PASSWORD }}
+                  port: ${{ secrets.SERVER_PORT }}
+                  script: |
+                      cd /home/deployer/app/hacktiv8-final-project4
+                      git pull origin main
+                      docker compose pull
+                      docker compose down
+                      docker compose up -d
+                      docker image prune -f
