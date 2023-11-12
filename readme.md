@@ -1,6 +1,10 @@
 ## :rocket: Hacktiv8 Final Project 4
 
-### API URL : https://hacktiv8-final-project4.herokuapp.com/
+### API URL : https://hacktiv8-final-project4-production.up.railway.app
+
+# Admin Credentials
+- Email : admin@mail.com
+- Password : admin
 
 ## System Requirement
 
