@@ -40,6 +40,17 @@ jobs:
                   port: ${{ secrets.SERVER_PORT }}
                   script: |
                       whoami
-                      docker stop hacktiv8-final-project4 || true && docker rm hacktiv8-final-project4 || true
-                      docker pull ${{ vars.IMAGE_NAME }}
-                      docker run -d -p 1213:1213 --name ${{ vars.CONTAINER_NAME }} ${{ vars.IMAGE_NAME }}
+                      # Login To Docker Hub
+                      docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
+
+                      # Stop running container
+                      docker stop  ${{ vars.IMAGE_NAME }}
+
+                      # Remove container
+                      docker rm ${{ vars.IMAGE_NAME }}
+
+                      # Pull latest image
+                      docker pull ${{ secrets.DOCKER_USERNAME }}/${{ vars.IMAGE_NAME }}:latest
+
+                      # Run image
+                      docker run -d -p 1213:1213 --name ${{ vars.IMAGE_NAME }}
