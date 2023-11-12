@@ -7,6 +7,13 @@ import (
 
 func StartApplication() {
 	router := gin.Default()
+
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "Welcome to Hacktiv8 Final Project 4",
+		})
+	})
+
 	gin.DefaultErrorWriter = exception.ErrorLogWriter
 	router.Use(gin.CustomRecovery(exception.ErrorHandler))
 
@@ -15,6 +22,7 @@ func StartApplication() {
 	CategoryRoutes(router)
 	ProductRoutes(router)
 	TransactionRoutes(router)
+	SwaggerRoutes(router)
 
 	err := router.Run()
 	if err != nil {
