@@ -10,7 +10,7 @@ func StartApplication() {
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "Welcome to Hacktiv8 Final Project 4",
+			"message": "Welcome to Hacktiv8 Final Project 4 API",
 		})
 	})
 
