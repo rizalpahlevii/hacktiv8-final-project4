@@ -24,9 +24,10 @@ func (repository *UserRepository) CreateUser(input request.RegisterRequest) mode
 	return user
 }
 
-func (repository *UserRepository) IncreaseBalance(user model.User, amount int) {
+func (repository *UserRepository) IncreaseBalance(user model.User, amount int) model.User {
 	user.Balance += amount
 	repository.DB.Save(&user)
+	return user
 }
 
 func (repository *UserRepository) DecreaseBalance(user model.User, amount int) {

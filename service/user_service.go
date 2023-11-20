@@ -28,7 +28,7 @@ func (service UserService) TopUp(request request.TopUpRequest, loggedUser helper
 	helper.PanicIfError(err)
 
 	user := service.userRepository.FindById(loggedUser.ID)
-	service.userRepository.IncreaseBalance(user, request.Balance)
+	response := service.userRepository.IncreaseBalance(user, request.Balance)
 
-	return httpresponse.NewTopUpResponse(user.Balance)
+	return httpresponse.NewTopUpResponse(response.Balance)
 }

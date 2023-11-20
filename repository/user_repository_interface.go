@@ -7,7 +7,7 @@ import (
 
 type UserRepositoryInterface interface {
 	CreateUser(input request.RegisterRequest) model.User
-	IncreaseBalance(user model.User, amount int)
+	IncreaseBalance(user model.User, amount int) model.User
 	DecreaseBalance(user model.User, amount int)
 	FindByEmail(email string) model.User
 	FindById(id int) model.User
