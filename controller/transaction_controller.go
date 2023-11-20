@@ -18,7 +18,9 @@ func (controller TransactionController) GetTransactions(context *gin.Context) {
 }
 
 func (controller TransactionController) GetUserTransactions(context *gin.Context) {
-	transactions := controller.transactionService.GetByUser(1)
+	loggedUser := helper.GetLoggedUser(context)
+	userId := loggedUser.ID
+	transactions := controller.transactionService.GetByUser(userId)
 	helper.JsonResponse(context, http.StatusOK, transactions)
 }
 
